@@ -82,26 +82,29 @@ document.getElementById("payButton").addEventListener("click", () => {
     document.getElementById("pp-button").innerHTML = "";
 
     const payButton = new PPaymentButtonBox({
-        token: token,
-        amount: Math.round(totalVal * 100),
-        amountWithoutTax: Math.round((subtotalVal - ivaVal) * 100),
-        amountWithTax: Math.round(subtotalVal * 100),
-        tax: Math.round(ivaVal * 100),
-        clientTransactionId: Date.now().toString(),
-        storeId: storeId,
-        reference: "Compra Beauty Manta",
-        currency: "USD",
-        email: "ivaniazs1999@gmail.com",
-        userId: "0983069426", // número registrado en PayPhone
+    token: token,
+    amount: Math.round(totalVal * 100), // 2300
+    amountWithoutTax: Math.round((subtotalVal - ivaVal) * 100), // 1700
+    amountWithTax: Math.round(subtotalVal * 100), // 2000
+    tax: Math.round(ivaVal * 100), // 300
+    service: 0,
+    tip: 0,
+    clientTransactionId: Date.now().toString(),
+    storeId: storeId,
+    reference: "Compra Beauty Manta",
+    currency: "USD",
+    email: "ivaniazs1999@gmail.com",
+    userId: "0983069426",
 
-        onConfirm: (response) => {
-            alert("¡Pago exitoso! ID de transacción: " + response.transactionId);
-            vaciarCarrito();
-        },
-        onCancel: () => {
-            alert("Pago cancelado por el usuario");
-        }
-    });
+    onConfirm: (response) => {
+        alert("¡Pago exitoso! ID de transacción: " + response.transactionId);
+        vaciarCarrito();
+    },
+    onCancel: () => {
+        alert("Pago cancelado por el usuario");
+    }
+});
+
 
     payButton.render("pp-button");
 });
