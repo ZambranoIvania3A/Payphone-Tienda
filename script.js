@@ -29,8 +29,8 @@ function agregarProducto(index) {
 
 function vaciarCarrito() {
     cart = [];
-    if(document.getElementById("pp-button")) {
-        document.getElementById("pp-button").innerHTML = ""; 
+    if (document.getElementById("pp-button")) {
+        document.getElementById("pp-button").innerHTML = "";
     }
     actualizarInterfaz();
 }
@@ -56,7 +56,7 @@ function actualizarInterfaz() {
     subtotalEl.textContent = subtotal.toFixed(2);
     ivaEl.textContent = iva.toFixed(2);
     totalEl.textContent = total.toFixed(2);
-    if(contador) contador.textContent = cart.length;
+    if (contador) contador.textContent = cart.length;
 }
 
 function toggleCarrito() {
@@ -75,24 +75,25 @@ document.getElementById("payButton").addEventListener("click", () => {
         return;
     }
 
-    // TUS CREDENCIALES REALES
-    const storeId = "Adg2MycFGkSfhhyn0pBQ6A"; 
-    const token = "MHibt6nRan4kPuq8qyTAKNj1SgJzuuUAFzjcXXCaDQtFe5EHAfBF-4K6rmTVvg51paTBXlZHLtyt8p8ip--Lv60rOAg9CCOrAoksTC-CoHPFLrb_8A1ZeEcUrlcfKUsb5HpTA34gEJVcVikgU6A9YA6ks5__1lnkOJ5Siyk4s95mDBwDo6XkI9GInxQjnMcMkN-d1ng2skBJD1e6-D2OspdJY3_TnJ_ruwuvyjaRRR7sVNQPiOjDsFN8ASJwhcZT6E-TthCm0llXbqEL5fsNxb0DO0javIAGSnCrxFz8PJyl3KSF-HHjym0IHCq-2d1hjT8n3Q"; 
+    // CREDENCIALES REALES
+    const storeId = "Adg2MycFGkSfhhyn0pBQ6A";
+    const token = "MHibt6nRan4kPuq8qyTAKNj1SgJzuuUAFzjcXXCaDQtFe5EHAfBF-4K6rmTVvg51paTBXlZHLtyt8p8ip--Lv60rOAg9CCOrAoksTC-CoHPFLrb_8A1ZeEcUrlcfKUsb5HpTA34gEJVcVikgU6A9YA6ks5__1lnkOJ5Siyk4s95mDBwDo6XkI9GInxQjnMcMkN-d1ng2skBJD1e6-D2OspdJY3_TnJ_ruwuvyjaRRR7sVNQPiOjDsFN8ASJwhcZT6E-TthCm0llXbqEL5fsNxb0DO0javIAGSnCrxFz8PJyl3KSF-HHjym0IHCq-2d1hjT8n3Q";
 
-    document.getElementById("pp-button").innerHTML = ""; 
+    document.getElementById("pp-button").innerHTML = "";
 
     const payButton = new PPaymentButtonBox({
         token: token,
         amount: Math.round(totalVal * 100),
-        amountWithoutTax: 0,
+        amountWithoutTax: Math.round((subtotalVal - ivaVal) * 100),
         amountWithTax: Math.round(subtotalVal * 100),
         tax: Math.round(ivaVal * 100),
         clientTransactionId: Date.now().toString(),
         storeId: storeId,
         reference: "Compra Beauty Manta",
         currency: "USD",
-        email: "cliente@beautymanta.com",
-        // Manejo del Response (Punto 4 de tu práctica)
+        email: "ivaniazs1999@gmail.com",
+        userId: "0983069426", // número registrado en PayPhone
+
         onConfirm: (response) => {
             alert("¡Pago exitoso! ID de transacción: " + response.transactionId);
             vaciarCarrito();
