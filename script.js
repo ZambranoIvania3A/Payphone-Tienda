@@ -9,7 +9,6 @@ const products = [
 
 let cart = [];
 
-// Cargar productos al inicio
 const productContainer = document.getElementById("product-list");
 products.forEach((p, index) => {
     productContainer.innerHTML += `
@@ -29,9 +28,8 @@ function agregarProducto(index) {
 
 function vaciarCarrito() {
     cart = [];
-    if (document.getElementById("pp-button")) {
-        document.getElementById("pp-button").innerHTML = "";
-    }
+    const pp = document.getElementById("pp-button");
+    if (pp) pp.innerHTML = "";
     actualizarInterfaz();
 }
 
@@ -64,43 +62,44 @@ function toggleCarrito() {
     carrito.classList.toggle("active");
 }
 
-// INTEGRACIÓN PAYPHONE CORREGIDA
+// INTEGRACIÓN PAYPHONE CORRECTA
 document.getElementById("payButton").addEventListener("click", () => {
-    const totalVal = parseFloat(document.getElementById("total").textContent);
-    const subtotalVal = parseFloat(document.getElementById("subtotal").textContent);
-    const ivaVal = parseFloat(document.getElementById("iva").textContent);
+    const subtotalVal = Number(document.getElementById("subtotal").textContent);
+    const ivaVal = Number(document.getElementById("iva").textContent);
+    const totalVal = Number(document.getElementById("total").textContent);
 
-    if (totalVal === 0) {
+    if (!totalVal || totalVal <= 0) {
         alert("Agrega productos para pagar");
         return;
     }
 
-    // CREDENCIALES REALES
     const storeId = "Adg2MycFGkSfhhyn0pBQ6A";
-    const token = "MHibt6nRan4kPuq8qyTAKNj1SgJzuuUAFzjcXXCaDQtFe5EHAfBF-4K6rmTVvg51paTBXlZHLtyt8p8ip--Lv60rOAg9CCOrAoksTC-CoHPFLrb_8A1ZeEcUrlcfKUsb5HpTA34gEJVcVikgU6A9YA6ks5__1lnkOJ5Siyk4s95mDBwDo6XkI9GInxQjnMcMkN-d1ng2skBJD1e6-D2OspdJY3_TnJ_ruwuvyjaRRR7sVNQPiOjDsFN8ASJwhcZT6E-TthCm0llXbqEL5fsNxb0DO0javIAGSnCrxFz8PJyl3KSF-HHjym0IHCq-2d1hjT8n3Q";
+    const token = "TU_TOKEN_REAL";
+
+    // Conversión a centavos
+    const amountWithTax = Math.round(subtotalVal * 100);   // base gravada
+    const tax = Math.round(ivaVal * 100);                  // IVA
+    const amountWithoutTax = 0;                            // productos sin IVA
+    const service = 0;
+    const tip = 0;
+    const amount = amountWithTax + amountWithoutTax + tax + service + tip; // total
 
     document.getElementById("pp-button").innerHTML = "";
 
     const payButton = new PPaymentButtonBox({
-        token: token,
-        // TOTAL en centavos
-        amount: Math.round(totalVal * 100),
-        // Base sin IVA
-        amountWithoutTax: Math.round((subtotalVal - ivaVal) * 100),
-        // Subtotal con IVA
-        amountWithTax: Math.round(subtotalVal * 100),
-        // IVA separado (informativo)
-        tax: Math.round(ivaVal * 100),
-        // Campos adicionales obligatorios
-        service: 0,
-        tip: 0,
-
+        token,
+        amount,
+        amountWithTax,
+        amountWithoutTax,
+        tax,
+        service,
+        tip,
         clientTransactionId: Date.now().toString(),
-        storeId: storeId,
+        storeId,
         reference: "Compra Beauty Manta",
         currency: "USD",
         email: "ivaniazs1999@gmail.com",
-        userId: "0983069426", // número registrado en PayPhone
+        userId: "0983069426",
 
         onConfirm: (response) => {
             alert("¡Pago exitoso! ID de transacción: " + response.transactionId);
@@ -113,3 +112,4 @@ document.getElementById("payButton").addEventListener("click", () => {
 
     payButton.render("pp-button");
 });
+
