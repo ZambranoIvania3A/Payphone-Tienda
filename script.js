@@ -29,7 +29,9 @@ function agregarProducto(index) {
 
 function vaciarCarrito() {
     cart = [];
-    document.getElementById("pp-button").innerHTML = ""; 
+    if(document.getElementById("pp-button")) {
+        document.getElementById("pp-button").innerHTML = ""; 
+    }
     actualizarInterfaz();
 }
 
@@ -43,7 +45,7 @@ function actualizarInterfaz() {
     lista.innerHTML = "";
     let subtotal = 0;
 
-    cart.forEach((item, i) => {
+    cart.forEach((item) => {
         subtotal += item.price;
         lista.innerHTML += `<li>${item.name} - $${item.price.toFixed(2)}</li>`;
     });
@@ -54,7 +56,7 @@ function actualizarInterfaz() {
     subtotalEl.textContent = subtotal.toFixed(2);
     ivaEl.textContent = iva.toFixed(2);
     totalEl.textContent = total.toFixed(2);
-    contador.textContent = cart.length;
+    if(contador) contador.textContent = cart.length;
 }
 
 function toggleCarrito() {
@@ -62,7 +64,7 @@ function toggleCarrito() {
     carrito.classList.toggle("active");
 }
 
-// INTEGRACIÓN PAYPHONE
+// INTEGRACIÓN PAYPHONE CORREGIDA
 document.getElementById("payButton").addEventListener("click", () => {
     const totalVal = parseFloat(document.getElementById("total").textContent);
     const subtotalVal = parseFloat(document.getElementById("subtotal").textContent);
@@ -73,9 +75,11 @@ document.getElementById("payButton").addEventListener("click", () => {
         return;
     }
 
-    // Datos de PayPhone (Tus credenciales)
-    const storeId = "9f3fdb3f-5194-4b55-93d7-9247586b97fc";
-    const token = "jdKv_jZZgsylQGEYiwahhdnIdLvcGCYztXt5n1i6WE5zjZwexEjB8t0SetmoIbzwDORn04MC7xaXTtQ9lf05PRw5BoLBjDDUVVEqjyBuP7Y4cZeZRARfsTGGOmjDe1AGh4mAsqyFAEopcovDGvEKm6X0ZHcKVYTXEgzZYeDeGmNkRd__7ZsVTWkuCSDyFRzqdBrmhRsG8RrRNE5oBRxKOhjVq-0h-7n5_c653k8zVREMHcBntBnWCwYO63fciQd4im5FgJCB_UDcJCJHh6-CAOUwpHEYJZ4f-tjc5jk4a0bscX5LuPlnxgSqrYxI6FjBHnnluWmS7Lb1fDYBXbgm11dJYo8";
+    // TUS CREDENCIALES REALES
+    const storeId = "TYeThhT0EkKlGXBGOT4r9w"; 
+    const token = "gpY1D2zi5Az7F0ej3raOyUhw3TuxybCIexhI2qsRw0UWCfjEiXXqjbpkKVvGNU4ECH0_aT9rRE9ESvtd0dC44k-7Js1NfJ6Nz4XT_Xwc85-5EGw-Ytr9D04-IURKUxm1jJw5-S-Rh1fNdP8oHyNVpOJ6MCm_WwmaWAKX3f1YoWqvZ8HS5XFo9fdVstPQ_b4XhJe9shuVsaP_CXodO_QMuuzFLD0aI1MKamQWMHKkGsQBDvF74YBBk4eumKdTJef1BSoL0DHoY-s8WP3HFcVeEFyHaxj15mDFuGmyl-naUgOUL-PbITQTIZimaexrVCabhrE7lgcp5MKA-sYKt__eMkZx-1U"; 
+
+    document.getElementById("pp-button").innerHTML = ""; 
 
     const payButton = new PPaymentButtonBox({
         token: token,
@@ -88,9 +92,15 @@ document.getElementById("payButton").addEventListener("click", () => {
         reference: "Compra Beauty Manta",
         currency: "USD",
         email: "cliente@beautymanta.com",
-        returnUrl: "https://tu-sitio.com/gracias"
+        // Manejo del Response (Punto 4 de tu práctica)
+        onConfirm: (response) => {
+            alert("¡Pago exitoso! ID de transacción: " + response.transactionId);
+            vaciarCarrito();
+        },
+        onCancel: () => {
+            alert("Pago cancelado por el usuario");
+        }
     });
 
-    document.getElementById("pp-button").innerHTML = ""; 
     payButton.render("pp-button");
 });
