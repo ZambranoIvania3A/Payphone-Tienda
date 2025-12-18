@@ -77,7 +77,7 @@ document.getElementById("payButton").addEventListener("click", () => {
 
     // TUS CREDENCIALES REALES
     const storeId = "TYeThhT0EkKlGXBGOT4r9w"; 
-    const token = "gpY1D2zi5Az7F0ej3raOyUhw3TuxybCIexhI2qsRw0UWCfjEiXXqjbpkKVvGNU4ECH0_aT9rRE9ESvtd0dC44k-7Js1NfJ6Nz4XT_Xwc85-5EGw-Ytr9D04-IURKUxm1jJw5-S-Rh1fNdP8oHyNVpOJ6MCm_WwmaWAKX3f1YoWqvZ8HS5XFo9fdVstPQ_b4XhJe9shuVsaP_CXodO_QMuuzFLD0aI1MKamQWMHKkGsQBDvF74YBBk4eumKdTJef1BSoL0DHoY-s8WP3HFcVeEFyHaxj15mDFuGmyl-naUgOUL-PbITQTIZimaexrVCabhrE7lgcp5MKA-sYKt__eMkZx-1U"; 
+    const token = "MHibt6nRan4kPuq8qyTAKNj1SgJzuuUAFzjcXXCaDQtFe5EHAfBF-4K6rmTVvg51paTBXlZHLtyt8p8ip--Lv60rOAg9CCOrAoksTC-CoHPFLrb_8A1ZeEcUrlcfKUsb5HpTA34gEJVcVikgU6A9YA6ks5__1lnkOJ5Siyk4s95mDBwDo6XkI9GInxQjnMcMkN-d1ng2skBJD1e6-D2OspdJY3_TnJ_ruwuvyjaRRR7sVNQPiOjDsFN8ASJwhcZT6E-TthCm0llXbqEL5fsNxb0DO0javIAGSnCrxFz8PJyl3KSF-HHjym0IHCq-2d1hjT8n3Q"; 
 
     document.getElementById("pp-button").innerHTML = ""; 
 
