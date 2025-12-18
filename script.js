@@ -76,7 +76,7 @@ document.getElementById("payButton").addEventListener("click", () => {
     }
 
     // TUS CREDENCIALES REALES
-    const storeId = "TYeThhT0EkKlGXBGOT4r9w"; 
+    const storeId = "Adg2MycFGkSfhhyn0pBQ6A"; 
     const token = "MHibt6nRan4kPuq8qyTAKNj1SgJzuuUAFzjcXXCaDQtFe5EHAfBF-4K6rmTVvg51paTBXlZHLtyt8p8ip--Lv60rOAg9CCOrAoksTC-CoHPFLrb_8A1ZeEcUrlcfKUsb5HpTA34gEJVcVikgU6A9YA6ks5__1lnkOJ5Siyk4s95mDBwDo6XkI9GInxQjnMcMkN-d1ng2skBJD1e6-D2OspdJY3_TnJ_ruwuvyjaRRR7sVNQPiOjDsFN8ASJwhcZT6E-TthCm0llXbqEL5fsNxb0DO0javIAGSnCrxFz8PJyl3KSF-HHjym0IHCq-2d1hjT8n3Q"; 
 
     document.getElementById("pp-button").innerHTML = ""; 
