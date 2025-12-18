@@ -81,30 +81,35 @@ document.getElementById("payButton").addEventListener("click", () => {
 
     document.getElementById("pp-button").innerHTML = "";
 
-  const payButton = new PPaymentButtonBox({
-    token: token,
-    amount: Math.round(subtotalVal * 100) + Math.round(ivaVal * 100), // total en centavos
-    amountWithoutTax: Math.round((subtotalVal - ivaVal) * 100),       // base sin IVA
-    amountWithTax: Math.round(subtotalVal * 100),                      // subtotal con IVA
-    tax: Math.round(ivaVal * 100),                                     // IVA
-    service: 0,
-    tip: 0,
-    clientTransactionId: Date.now().toString(),
-    storeId: storeId,
-    reference: "Compra Beauty Manta",
-    currency: "USD",
-    email: "ivaniazs1999@gmail.com",
-    userId: "0983069426",
+    const payButton = new PPaymentButtonBox({
+        token: token,
+        // TOTAL en centavos
+        amount: Math.round(totalVal * 100),
+        // Base sin IVA
+        amountWithoutTax: Math.round((subtotalVal - ivaVal) * 100),
+        // Subtotal con IVA
+        amountWithTax: Math.round(subtotalVal * 100),
+        // IVA separado (informativo)
+        tax: Math.round(ivaVal * 100),
+        // Campos adicionales obligatorios
+        service: 0,
+        tip: 0,
 
-    onConfirm: (response) => {
-        alert("¡Pago exitoso! ID de transacción: " + response.transactionId);
-        vaciarCarrito();
-    },
-    onCancel: () => {
-        alert("Pago cancelado por el usuario");
-    }
-});
+        clientTransactionId: Date.now().toString(),
+        storeId: storeId,
+        reference: "Compra Beauty Manta",
+        currency: "USD",
+        email: "ivaniazs1999@gmail.com",
+        userId: "0983069426", // número registrado en PayPhone
 
+        onConfirm: (response) => {
+            alert("¡Pago exitoso! ID de transacción: " + response.transactionId);
+            vaciarCarrito();
+        },
+        onCancel: () => {
+            alert("Pago cancelado por el usuario");
+        }
+    });
 
     payButton.render("pp-button");
 });
