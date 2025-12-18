@@ -1,166 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beauty Manta - Tienda de Maquillaje</title>
-  <!-- SDK y estilos de PayPhone (usa sandbox si estás en modo prueba) -->
-  <script type="module" src="https://sandbox.payphonetodoesposible.com/box/v1.1/payphone-payment-box.js"></script>
-  <link rel="stylesheet" href="https://sandbox.payphonetodoesposible.com/box/v1.1/payphone-payment-box.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Manta - Tienda de Maquillaje</title>
+    <script type="module" src="https://cdn.payphonetodoesposible.com/box/v1.1/payphone-payment-box.js"></script>
+<link rel="stylesheet" href="https://cdn.payphonetodoesposible.com/box/v1.1/payphone-payment-box.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="logo">BEAUTY MANTA</div>
-  <div class="search-box">
-    <input type="text" placeholder="Buscar maquillaje...">
-  </div>
-  <div class="cart-icon" onclick="toggleCarrito()">
-    <i class="fas fa-shopping-basket"></i>
-    <span id="contador">0</span>
-  </div>
+    <div class="logo">BEAUTY MANTA</div>
+    <div class="search-box">
+        <input type="text" placeholder="Buscar maquillaje...">
+    </div>
+    <div class="cart-icon" onclick="toggleCarrito()">
+        <i class="fas fa-shopping-basket"></i>
+        <span id="contador">0</span>
+    </div>
 </header>
 
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-box">
+            <h1>BEAUTY MANTA</h1>
+            <p>Relájate, cuida tu piel y destaca tu belleza con nuestra selección exclusiva de productos profesionales.</p>
+            <button class="btn-hero" onclick="location.href='#productos'">Explorar Catálogo</button>
+        </div>
+    </div>
+</section>
+
 <main class="container">
-  <section class="productos" id="productos">
-    <h2>Nuestros Productos</h2>
-    <div class="grid" id="product-list"></div>
-  </section>
+    <section class="productos" id="productos">
+        <h2>Nuestros Productos</h2>
+        <div class="grid" id="product-list">
+            </div>
+    </section>
 
-  <aside class="carrito-float" id="carrito">
-    <div class="carrito-header">
-      <h3><i class="fas fa-shopping-cart"></i> Mi Carrito</h3>
-      <button class="close-cart" onclick="toggleCarrito()">&times;</button>
-    </div>
-    <ul id="listaCarrito"></ul>
+    <aside class="carrito-float" id="carrito">
+        <div class="carrito-header">
+            <h3><i class="fas fa-shopping-cart"></i> Mi Carrito</h3>
+            <button class="close-cart" onclick="toggleCarrito()">&times;</button>
+        </div>
+        <ul id="listaCarrito"></ul>
+        
+        <div class="resumen-pago">
+            <p>Subtotal: $<span id="subtotal">0.00</span></p>
+            <p>IVA (15%): $<span id="iva">0.00</span></p>
+            <p class="total-text">Total: $<span id="total">0.00</span></p>
+        </div>
 
-    <div class="resumen-pago">
-      <p>Subtotal: $<span id="subtotal">0.00</span></p>
-      <p>IVA (15%): $<span id="iva">0.00</span></p>
-      <p class="total-text">Total: $<span id="total">0.00</span></p>
-    </div>
+        <div id="pp-button" style="margin-top: 15px;"></div>
 
-    <!-- Aquí se renderiza el botón oficial de PayPhone -->
-    <div id="pp-button" style="margin-top: 15px;"></div>
-
-    <div class="cart-buttons">
-      <button class="btn-vaciar" onclick="vaciarCarrito()">🗑️ Vaciar Carrito</button>
-    </div>
-  </aside>
+        <div class="cart-buttons">
+            <button class="btn-pagar" id="payButton">💳 Pagar con PayPhone</button>
+            <button class="btn-vaciar" onclick="vaciarCarrito()">🗑️ Vaciar Carrito</button>
+        </div>
+    </aside>
 </main>
 
 <footer>
-  <p>© 2025 Beauty Manta · Elegancia y Estilo · Integración PayPhone</p>
+    <p>© 2025 Beauty Manta · Elegancia y Estilo · Integración PayPhone</p>
 </footer>
 
-<script>
-// ------------------- PRODUCTOS -------------------
-const products = [
-  { name: "Labial Mate", price: 8.00, image: "img/Labial-mate.jpg" },
-  { name: "Base Líquida", price: 15.00, image: "img/Base-liquido.jpg" },
-  { name: "Paleta de Sombras", price: 18.00, image: "img/Paleta de sobra.jpg" },
-  { name: "Gel de Cejas", price: 6.00, image: "img/gel de cejas.jpg" },
-  { name: "Set de Brochas", price: 20.00, image: "img/brochas.jpg" },
-  { name: "Gloss Labial", price: 7.00, image: "img/gloss.jpg" }
-];
-
-let cart = [];
-
-const productContainer = document.getElementById("product-list");
-products.forEach((p, index) => {
-  productContainer.innerHTML += `
-    <div class="card">
-      <img src="${p.image}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p class="price">$${p.price.toFixed(2)}</p>
-      <button onclick="agregarProducto(${index})">Agregar al Carrito</button>
-    </div>
-  `;
-});
-
-function agregarProducto(index) {
-  cart.push(products[index]);
-  actualizarInterfaz();
-}
-
-function vaciarCarrito() {
-  cart = [];
-  document.getElementById("pp-button").innerHTML = "";
-  actualizarInterfaz();
-}
-
-function actualizarInterfaz() {
-  const lista = document.getElementById("listaCarrito");
-  const subtotalEl = document.getElementById("subtotal");
-  const ivaEl = document.getElementById("iva");
-  const totalEl = document.getElementById("total");
-  const contador = document.getElementById("contador");
-
-  lista.innerHTML = "";
-  let subtotal = 0;
-
-  cart.forEach((item) => {
-    subtotal += item.price;
-    lista.innerHTML += `<li>${item.name} - $${item.price.toFixed(2)}</li>`;
-  });
-
-  const iva = subtotal * 0.15;
-  const total = subtotal + iva;
-
-  subtotalEl.textContent = subtotal.toFixed(2);
-  ivaEl.textContent = iva.toFixed(2);
-  totalEl.textContent = total.toFixed(2);
-  if (contador) contador.textContent = cart.length;
-
-  // Renderizar botón PayPhone automáticamente si hay productos
-  if (cart.length > 0) {
-    const storeId = "Adg2MycFGkSfhhyn0pBQ6A";
-    const token = "TU_TOKEN_DE_PRUEBA_O_PRODUCCION";
-
-    const amountWithTax = Math.round(subtotal * 100); // base gravada
-    const tax = Math.round(iva * 100);                // IVA
-    const amountWithoutTax = 0;                       // productos sin IVA
-    const service = 0;
-    const tip = 0;
-    const amount = amountWithTax + amountWithoutTax + tax + service + tip;
-
-    document.getElementById("pp-button").innerHTML = "";
-
-    const payButton = new PPaymentButtonBox({
-      token,
-      amount,
-      amountWithTax,
-      amountWithoutTax,
-      tax,
-      service,
-      tip,
-      clientTransactionId: Date.now().toString(),
-      storeId,
-      reference: "Compra Beauty Manta",
-      currency: "USD",
-      email: "ivaniazs1999@gmail.com",
-      userId: "0983069426",
-      onConfirm: (response) => {
-        alert("¡Pago exitoso! ID de transacción: " + response.transactionId);
-        vaciarCarrito();
-      },
-      onCancel: () => {
-        alert("Pago cancelado por el usuario");
-      }
-    });
-
-    payButton.render("pp-button");
-  } else {
-    document.getElementById("pp-button").innerHTML = "";
-  }
-}
-
-function toggleCarrito() {
-  const carrito = document.getElementById("carrito");
-  carrito.classList.toggle("active");
-}
-</script>
+<script src="script.js"></script>
 </body>
 </html>
