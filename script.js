@@ -81,12 +81,12 @@ document.getElementById("payButton").addEventListener("click", () => {
 
     document.getElementById("pp-button").innerHTML = "";
 
-    const payButton = new PPaymentButtonBox({
+  const payButton = new PPaymentButtonBox({
     token: token,
-    amount: Math.round(totalVal * 100), // 2300
-    amountWithoutTax: Math.round((subtotalVal - ivaVal) * 100), // 1700
-    amountWithTax: Math.round(subtotalVal * 100), // 2000
-    tax: Math.round(ivaVal * 100), // 300
+    amount: Math.round(subtotalVal * 100) + Math.round(ivaVal * 100), // total en centavos
+    amountWithoutTax: Math.round((subtotalVal - ivaVal) * 100),       // base sin IVA
+    amountWithTax: Math.round(subtotalVal * 100),                      // subtotal con IVA
+    tax: Math.round(ivaVal * 100),                                     // IVA
     service: 0,
     tip: 0,
     clientTransactionId: Date.now().toString(),
